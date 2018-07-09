@@ -15,10 +15,9 @@ class m180709_100720_create_books_table extends Migration
         $this->createTable('books', [
             'id' => $this->primaryKey(),
             'title' => $this->text()->notNull(),
-            'description' => $this->text()
+            'description' => $this->text(),
+            'date' => $this->dateTime()
         ]);
-
-        $this->createIndex('idx-books-id', 'books', 'id');
     }
 
     /**

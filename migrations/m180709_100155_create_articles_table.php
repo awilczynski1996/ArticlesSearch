@@ -16,11 +16,8 @@ class m180709_100155_create_articles_table extends Migration
             'id' => $this->primaryKey(),
             'title' => $this->text()->notNull(),
             'description' => $this->text()->notNull(),
-            'file_id' => $this->integer()
+            'date' => $this->dateTime()
         ]);
-
-        $this->createIndex('idx-articles-file_id', 'articles', 'file_id');
-        $this->addForeignKey('fk-articles_files-id', 'articles', 'file_id', 'articles_files', 'id');
     }
 
     /**

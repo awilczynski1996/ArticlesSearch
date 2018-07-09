@@ -17,14 +17,9 @@ class m180709_100746_create_authors_articles_table extends Migration
             'author_id' => $this->integer()->notNull(),
             'article_id' => $this->integer()->notNull()
         ]);
-
-        $this->createIndex('idx-authors_articles-id', 'authors_articles', 'id');
-        $this->createIndex('idx-authors_articles-author_id', 'authors_articles', 'author_id');
-        $this->createIndex('idx-authors_articles-article_id', 'authors_articles', 'article_id');
-
         $this->addForeignKey('fk-authors-id', 'authors_articles', 'author_id', 'authors', 'id');
         $this->addForeignKey('fk-articles-id', 'authors_articles', 'article_id', 'articles', 'id');
-}
+    }
 
     /**
      * {@inheritdoc}

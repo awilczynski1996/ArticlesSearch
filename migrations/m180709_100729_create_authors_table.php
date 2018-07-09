@@ -15,10 +15,8 @@ class m180709_100729_create_authors_table extends Migration
         $this->createTable('authors', [
             'id' => $this->primaryKey(),
             'name' => $this->text()->notNull(),
-            'surname' => $this->text()->notNull()
+            'last_name' => $this->text()->notNull()
         ]);
-
-        $this->createIndex('idx-authors-id', 'authors', 'id');
     }
 
     /**

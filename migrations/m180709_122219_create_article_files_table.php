@@ -3,17 +3,18 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `articles_files`.
+ * Handles the creation of table `article_files`.
  */
-class m180709_095547_create_articles_files_table extends Migration
+class m180709_122219_create_article_files_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('articles_files', [
+        $this->createTable('article_files', [
             'id' => $this->primaryKey(),
+            'hash' => $this->text(),
             'name' =>$this->text()->notNull(),
             'extension' => $this->text()->notNull()
         ]);
@@ -27,6 +28,6 @@ class m180709_095547_create_articles_files_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('articles_files');
+        $this->dropTable('article_files');
     }
 }
