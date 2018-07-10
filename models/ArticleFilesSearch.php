@@ -8,9 +8,9 @@ use yii\data\ActiveDataProvider;
 use app\models\ArticleFiles;
 
 /**
- * ArticleFileSearchs represents the model behind the search form of `app\models\ArticleFiles`.
+ * ArticleFilesSearch represents the model behind the search form of `app\models\ArticleFiles`.
  */
-class ArticleFileSearchs extends ArticleFiles
+class ArticleFilesSearch extends ArticleFiles
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class ArticleFileSearchs extends ArticleFiles
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'article_id'], 'integer'],
             [['hash', 'name', 'extension'], 'safe'],
         ];
     }
@@ -60,6 +60,7 @@ class ArticleFileSearchs extends ArticleFiles
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'article_id' => $this->article_id,
         ]);
 
         $query->andFilterWhere(['like', 'hash', $this->hash])

@@ -12,6 +12,7 @@ use Yii;
  * @property string $last_name
  *
  * @property AuthorsArticles[] $authorsArticles
+ * @property BookArticles[] $bookArticles
  */
 class Authors extends \yii\db\ActiveRecord
 {
@@ -52,5 +53,13 @@ class Authors extends \yii\db\ActiveRecord
     public function getAuthorsArticles()
     {
         return $this->hasMany(AuthorsArticles::className(), ['author_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBookArticles()
+    {
+        return $this->hasMany(BookArticles::className(), ['book_id' => 'id']);
     }
 }

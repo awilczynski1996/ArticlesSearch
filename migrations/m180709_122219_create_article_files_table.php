@@ -14,13 +14,13 @@ class m180709_122219_create_article_files_table extends Migration
     {
         $this->createTable('article_files', [
             'id' => $this->primaryKey(),
+            'article_id' => $this->integer(),
             'hash' => $this->text(),
             'name' =>$this->text()->notNull(),
             'extension' => $this->text()->notNull()
         ]);
 
-        $this->createIndex('idx-articles_files-id', 'articles_files', 'id');
-
+        $this->addForeignKey('fk-article-id-files', 'article_files', 'article_id', 'articles', 'id');
     }
 
     /**

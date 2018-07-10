@@ -12,6 +12,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'article_id')->textInput() ?>
+
     <?= $form->field($model, 'hash')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'name')->textarea(['rows' => 6]) ?>

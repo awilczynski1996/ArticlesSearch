@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ArticleFileSearchs */
+/* @var $model app\models\ArticleFilesSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
     <?= $form->field($model, 'id') ?>
+
+    <?= $form->field($model, 'article_id') ?>
 
     <?= $form->field($model, 'hash') ?>
 

@@ -12,7 +12,9 @@ use Yii;
  * @property string $description
  * @property string $date
  *
+ * @property ArticleFiles[] $articleFiles
  * @property AuthorsArticles[] $authorsArticles
+ * @property BookArticles[] $bookArticles
  */
 class Articles extends \yii\db\ActiveRecord
 {
@@ -52,8 +54,24 @@ class Articles extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getArticleFiles()
+    {
+        return $this->hasMany(ArticleFiles::className(), ['article_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getAuthorsArticles()
     {
         return $this->hasMany(AuthorsArticles::className(), ['article_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBookArticles()
+    {
+        return $this->hasMany(BookArticles::className(), ['article_id' => 'id']);
     }
 }

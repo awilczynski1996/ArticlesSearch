@@ -4,10 +4,11 @@ namespace app\controllers;
 
 use Yii;
 use app\models\ArticleFiles;
-use app\models\ArticleFileSearchs;
+use app\models\ArticleFilesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ArticleFilesController implements the CRUD actions for ArticleFiles model.
@@ -35,7 +36,7 @@ class ArticleFilesController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ArticleFileSearchs();
+        $searchModel = new ArticleFilesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
