@@ -2,12 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\ArticleFiles;
 use Yii;
 use app\models\Articles;
 use app\models\ArticlesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ArticlesController implements the CRUD actions for Articles model.
@@ -123,5 +125,58 @@ class ArticlesController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * Odpowiada za upload plików do artykułu
+     *
+     * @param integer $id id artykułu, do którego dodajemy plik
+     *
+     * @return mixed
+     */
+    public function actionUpload($id)
+    {
+        $model = new ArticleFiles();
+
+        if(Yii::$app->request->isPost) {
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->name = $model->file->baseName;
+            $model->article_id = $id;
+            $model->hash = md5($model->file->baseName . microtime());
+            $model->extension = $model->file->extension;
+
+            if($model->upload()) {
+                $model->save();
+
+                return $this->redirect(['uploadedfiles', 'id' => $id]);
+            }
+        }
+
+        return $this->render('upload', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionUploadedfiles($id)
+    {
+        $files = ArticleFiles::find()->where('article_id = ' . $id)->all();
+
+        return $this->render('files', [
+            'files' => $files,
+            'article_id' => $id
+        ]);
+    }
+
+    public function actionDownload($fileId)
+    {
+        $file = ArticleFiles::findOne($fileId);
+
+        $filesConfig = Yii::$app->getComponents()['files'];
+        $dirId = ceil($file->id / $filesConfig['files_limit']);
+
+        return \Yii::$app->response->sendFile(
+            $filesConfig['path'] . DIRECTORY_SEPARATOR . $dirId . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->extension,
+            $file->name . "." . $file->extension
+        );
     }
 }

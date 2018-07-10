@@ -12,6 +12,8 @@ use yii\web\UploadedFile;
 
 /**
  * ArticleFilesController implements the CRUD actions for ArticleFiles model.
+ *
+ * TODO delete entire controller later
  */
 class ArticleFilesController extends Controller
 {
@@ -72,12 +74,15 @@ class ArticleFilesController extends Controller
     {
         $model = new ArticleFiles();
 
-        $model->hash = md5($model->name.microtime());
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if(Yii::$app->request->isPost) {
             $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/' . $model->hash . '.' . $model->extension);
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model->name = $model->file->baseName;
+            $model->hash = md5($model->file->baseName . microtime());
+            $model->extension = $model->file->extension;
+
+            if($model->upload()) {
+                $model->save();
+            }
         }
 
         return $this->render('create', [
