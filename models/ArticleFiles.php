@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Model;
+use yii\web\UploadedFile;
+
 
 /**
  * This is the model class for table "article_files".
@@ -17,7 +20,11 @@ use Yii;
  */
 class ArticleFiles extends \yii\db\ActiveRecord
 {
+    /**
+     * @var UploadedFile
+     */
     public $file;
+
     /**
      * {@inheritdoc}
      */
@@ -36,6 +43,7 @@ class ArticleFiles extends \yii\db\ActiveRecord
             [['hash', 'name', 'extension'], 'string'],
             [['name', 'extension'], 'required'],
             [['article_id'], 'exist', 'skipOnError' => true, 'targetClass' => Articles::className(), 'targetAttribute' => ['article_id' => 'id']],
+            [['file'], 'file']
         ];
     }
 

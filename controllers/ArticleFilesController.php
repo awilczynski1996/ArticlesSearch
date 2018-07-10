@@ -16,6 +16,11 @@ use yii\web\UploadedFile;
 class ArticleFilesController extends Controller
 {
     /**
+     * @var UploadedFile;
+     */
+    public $file;
+
+    /**
      * {@inheritdoc}
      */
     public function behaviors()
@@ -67,7 +72,11 @@ class ArticleFilesController extends Controller
     {
         $model = new ArticleFiles();
 
+        $model->hash = md5($model->name.microtime());
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->file->saveAs('uploads/' . $model->hash . '.' . $model->extension);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
