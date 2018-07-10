@@ -4,6 +4,7 @@ require_once(__DIR__.'/functions.php');
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$files = require __DIR__ . '/files.php';
 
 $config = [
     'id' => 'basic',
@@ -45,6 +46,7 @@ $config = [
             ],
         ],
         'db' => $db,
+        'files' => $files,
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
