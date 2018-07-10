@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 
@@ -43,8 +44,24 @@ class ArticleFiles extends \yii\db\ActiveRecord
             [['hash', 'name', 'extension'], 'string'],
             [['name', 'extension'], 'required'],
             [['article_id'], 'exist', 'skipOnError' => true, 'targetClass' => Articles::className(), 'targetAttribute' => ['article_id' => 'id']],
-            [['file'], 'file']
+            [['file'], 'file', 'maxSize' => 10000000]
         ];
+    }
+
+    public function upload()
+    {
+        $filesConfig = Yii::$app->getComponents()['files'];
+        $dirId = ceil((ArticleFiles::find()->max('id') + 1) / $filesConfig['files_limit']);
+
+        if($this->validate()) {
+            $path = $filesConfig['path'] . DIRECTORY_SEPARATOR . $dirId . DIRECTORY_SEPARATOR;
+
+            FileHelper::createDirectory($path);
+            $this->file->saveAs($path . $this->hash . '.' . $this->file->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
